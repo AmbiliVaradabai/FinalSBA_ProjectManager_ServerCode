@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const autoInc= require('mongoose-sequence')(mongoose)
-
 const Schema = mongoose.Schema;
 
 var options = {
