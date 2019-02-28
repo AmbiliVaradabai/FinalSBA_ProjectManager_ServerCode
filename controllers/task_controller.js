@@ -1,13 +1,14 @@
 const express   = require('express');
 const router    = express.Router();
-const Task      = require ('../models/Task')
+const Project   = require('../models/Project');
+const Task      = require('../models/Task')
 
 // Create new Task 
 router.post('/add', (req, res) => {
     let taskData = req.body
-    Task.save((err, taskData) => {
+    let task = new Task(taskData)
+    task.save((err, taskData) => {
       if (err) {
-        console.log(err)
         res.status(400).send({"Success": false, "Message":"Error Occured While Creating new Task"})    
       } else {
         res.status(200).json({"Success": true})
@@ -16,15 +17,15 @@ router.post('/add', (req, res) => {
 });
 
 // Retrieve tasks of allocated to the projects
-router.get('/', (req, res) => {    
+router.get('/', (req, res) => {
     var Query = Task.find();
     var queryparams = req.query;
+
     if (queryparams.ProjectId) {
-        Task.findOne({ ProjectID: queryparams.ProjectId }, (err, project) => {
+        Project.findOne({ ProjectID: queryparams.ProjectId }, (err, project) => {         
             Query.or([
                 { Project: project._id }
             ]);
-
             if (queryparams.sortKey) {
                 var sortdirection = 1;
                 if(queryparams.sortKey=="Status"){

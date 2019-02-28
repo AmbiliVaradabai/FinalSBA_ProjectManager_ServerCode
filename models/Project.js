@@ -27,12 +27,12 @@ Project
 });
 
 Project
-.virtual('TotalTasks').get( () => {
+.virtual('TotalTasks').get(function ()  {
   return this.get('Tasks') ? this.get('Tasks').length : 0;
 });
 
 Project
-.virtual('CompletedTasks').get( () => {
+.virtual('CompletedTasks').get( function() {
   if (this.get('Tasks') && this.get('Tasks').length > 0) {
     var tasks = this.get('Tasks').filter( (task) => {
       return task.Status == 1;

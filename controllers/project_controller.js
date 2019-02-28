@@ -1,6 +1,6 @@
 const express = require('express');
-const router = express.Router();
-const  Project = require ('../models/Project')
+const router  = express.Router();
+const Project = require ('../models/Project')
 
 // Create new Project 
 router.post('/add', (req, res) => {
@@ -21,7 +21,7 @@ router.post('/add', (req, res) => {
 router.get('/', (req, res) => {
   var Query = Project.find();
   var queryparams = req.query;
-
+ 
   if (queryparams.searchKey) {
     Query.or([
     { 'Project': { $regex: queryparams.searchKey, $options: 'i' } }]);
@@ -29,10 +29,10 @@ router.get('/', (req, res) => {
   if (queryparams.sortKey) {
     Query.sort([[queryparams.sortKey, 1]]);
   }
-
+ 
   Query
   .populate('Tasks', ['TaskID', 'Status'])
-  .exec( (err, projects) => {
+  .exec(function (err, projects) {
     if (err) {
       res.json({ 'Success': false })
     }
@@ -40,8 +40,8 @@ router.get('/', (req, res) => {
       res.json({ 'Success': true, 'Data': projects });
     }
   });
-}); 
-  
+ }); 
+
 //get project details based on the project id 
 router.get('/:id', (req, res) => {  
   let projectId = req.params.id;
@@ -53,8 +53,7 @@ router.get('/:id', (req, res) => {
         res.json({ 'Success': true, 'Data': project });
     }
   });
-});
-  
+}); 
 
 // update project details
 router.post('/edit/:id', (req, res) => {
