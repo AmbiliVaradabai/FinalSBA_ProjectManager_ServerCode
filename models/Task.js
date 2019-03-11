@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const autoInc= require('mongoose-sequence')(mongoose)
 const Schema = mongoose.Schema;
+const autoInc= require('mongoose-sequence')(mongoose)
 
 var options = {
     toObjects :{ virtuals: true },
